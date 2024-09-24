@@ -1,0 +1,77 @@
+{
+  "name": "digital-card-portal",
+  "version": "0.1.00",
+  "private": true,
+  "dependencies": {
+    "@craco/craco": "^7.0.0",
+    "@googlemaps/react-wrapper": "^1.1.35",
+    "@react-google-maps/api": "^2.17.0",
+    "@types/jest": "^27.5.2",
+    "@types/luxon": "^3.0.1",
+    "@types/node": "^16.11.62",
+    "@types/react": "^18.0.21",
+    "@types/react-dom": "^18.0.6",
+    "@types/react-loadable": "^5.5.6",
+    "antd": "^4.24.4",
+    "axios": "^1.0.0",
+    "buffer": "^6.0.3",
+    "craco-less": "^2.0.0",
+    "env-cmd": "^10.1.0",
+    "html-to-image": "^1.11.11",
+    "html2canvas": "^1.4.1",
+    "localforage": "^1.10.0",
+    "luxon": "^3.0.4",
+    "match-sorter": "^6.3.1",
+    "moment": "^2.29.4",
+    "qrcode.react": "^4.0.1",
+    "react": "^18.2.0",
+    "react-data-table-component": "^7.5.3",
+    "react-dom": "^18.2.0",
+    "react-global-configuration": "^1.4.1",
+    "react-google-maps": "^9.4.5",
+    "react-icons": "^4.6.0",
+    "react-input-mask": "^2.0.4",
+    "react-promise-tracker": "^2.1.0",
+    "react-router-dom": "^6.4.2",
+    "react-scripts": "5.0.1",
+    "sort-by": "^1.2.0",
+    "styled-components": "^5.3.11",
+    "vcf": "^2.1.2",
+    "web-vitals": "^2.1.4",
+    "zustand": "^4.1.2"
+  },
+  "scripts": {
+"start": "set PORT=3000 && craco start",
+    "build": "craco build",
+    "build:dev": "env-cmd -f .env.dev npm run build",
+    "build:uat": "env-cmd -f .env.production npm run build",
+    "test": "craco test",
+    "eject": "craco eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@types/react-global-configuration": "^1.3.1",
+    "@types/styled-components": "^5.1.26",
+    "@types/vcf": "^2.0.7",
+    "autoprefixer": "^10.4.12",
+    "postcss": "^8.4.17",
+    "typescript": "^4.9.5"
+  }
+}

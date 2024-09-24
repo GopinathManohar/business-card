@@ -1,0 +1,160 @@
+import { Autocomplete } from '@react-google-maps/api';
+import { Modal } from 'antd';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { Marker, withGoogleMap, withScriptjs } from "react-google-maps";
+import { useCommonStore } from '../../stores/CommonStore';
+const GoogleMap = require('react-google-maps').GoogleMap;
+
+
+const googleMapURL = `https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`
+const containerStyle = {
+    width: '400px',
+    height: '400px'
+};
+
+interface IPosition { lat: number, lng: number }
+
+interface IGoogleMapsProps {
+    isMarkerShown: boolean,
+    open: boolean,
+    setOpen: (value: boolean) => void,
+    getLocation?: () => void,
+    title: string,
+    positions?: IPosition,
+    isSearchable: boolean
+}
+interface IMarkerRef {
+    input: Marker | null
+}
+
+const MapComponent = (props: IGoogleMapsProps) => {
+    let autocomplete: any = null
+
+    const googleMapRef: React.MutableRefObject<{}> = useRef({});
+    const markerRef: React.MutableRefObject<null> = useRef(null)
+    const positions: IPosition = {
+        lat: 0,
+        lng: 0
+    };
+    const SaveGooglePosition = useCommonStore((state) => state?.SaveGooglePosition)
+    const [position, setPosition] = useState(!props?.isSearchable ? props.positions : positions);
+    const [selectedPlaceName, setSelectedPlaceName] = useState();
+
+    const getCurrentLocation = useCallback(() => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                setPosition({
+                    ...positions,
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                });
+            });
+        } else {
+            alert("Geolocation is not supported by this browser.");
+        }
+    }, []);
+
+    useEffect(() => {
+        getCurrentLocation()
+    }, [])
+
+    const onLoad = useCallback((data: any) => {
+        autocomplete = data
+    }, [])
+
+    const onPlaceChanged = useCallback(() => {
+        if (autocomplete !== null) {
+            const getPlace = autocomplete.getPlace();
+            SaveGooglePosition(getPlace);
+            setPosition({
+                ...positions,
+                lat: getPlace?.geometry.location.lat(),
+                lng: getPlace?.geometry.location.lng()
+            });
+            setSelectedPlaceName(getPlace?.name);
+        } else {
+            console.log('Autocomplete is not loaded yet!')
+        }
+    }, [])
+
+    const onPositionChange = useCallback((e: any) => {
+        // setPosition({
+        //     ...positions,
+        //     lat: markerRef?.current?.props!.position.lat,
+        //     lng: markerRef?.current?.props!.position.lng()
+        // });
+        // SaveGooglePosition(getPlace);
+    }, [])
+
+
+    const onOkClicked = () => {
+        props?.isSearchable && props?.getLocation();
+        props?.setOpen(false)
+    }
+    const Map = () => {
+        return (
+            <GoogleMap
+                ref={googleMapRef}
+                id="searchbox"
+                mapContainerStyle={containerStyle}
+                center={position}
+                clickableIcons={true}
+                zoom={18}>
+                {props?.isSearchable && <>
+                    <Autocomplete
+                        onLoad={onLoad}
+                        onPlaceChanged={onPlaceChanged}
+                    >
+                        <input
+                            defaultValue={selectedPlaceName}
+                            type="text"
+                            placeholder="Search your location"
+                            style={{
+                                boxSizing: `border-box`,
+                                border: `1px solid transparent`,
+                                width: `240px`,
+                                height: `32px`,
+                                padding: `0 12px`,
+                                borderRadius: `3px`,
+                                boxShadow: `0 2px 6px rgba(0, 0, 0, 0.3)`,
+                                fontSize: `14px`,
+                                outline: `none`,
+                                textOverflow: `ellipses`,
+                                position: "absolute",
+                                left: "50%",
+                                marginLeft: "-120px"
+                            }}
+                        />
+                    </Autocomplete>
+                </>}
+
+
+                {props?.isMarkerShown && <Marker ref={markerRef} position={position} draggable={true} onDragEnd={(e) => onPositionChange(e)} />}
+            </GoogleMap>
+        )
+    }
+
+    const WrappedMap: any = withScriptjs(withGoogleMap(Map));
+
+    return (
+        <Modal
+            getContainer={false}
+            title={props?.title}
+            centered
+            open={props?.open}
+            onCancel={() => props?.setOpen(false)}
+            onOk={onOkClicked}
+            okText={'Ok'}
+            width={1000}
+        >
+            <WrappedMap
+                googleMapURL={googleMapURL}
+                containerElement={<div style={{ height: `400px` }} />}
+                mapElement={<div style={{ height: `100%` }} />}
+                loadingElement={<div style={{ height: `100%` }} />}
+            ></WrappedMap>
+        </Modal>
+    )
+}
+
+export default (MapComponent)
