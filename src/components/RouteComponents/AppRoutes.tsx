@@ -6,6 +6,7 @@ import AppLayout from '../Layout/AppLayout'
 import { LoginComponent } from "../LoginComponent"
 import { CardComponentLoadable } from "../CardComponent"
 import ProtectedRoute from './ProtectRoutes'
+import EmployeeTableComponent from '../Dashboard/EmployeeTable'
 
 
 const AppRoutes = () => {
@@ -14,20 +15,22 @@ const AppRoutes = () => {
         <Suspense fallback={<LoadingComponent />}>
             <Routes>
                 <Route path='/' element={
-                    <ProtectedRoute>
-                        <AppLayout />
-                    </ProtectedRoute>
+                    // <ProtectedRoute>
+                    <AppLayout />
+                    // </ProtectedRoute>
                 }>
-                 
-                   
-                  
-                   
-                   
+                    <Route path='dashboard' element={
+                        <EmployeeTableComponent />
+                    } />
+                    <Route path="/create-card" element={<CardComponentLoadable />} />
+
+
+
                     {/* <Route path='pod-files' element={
                         <PodFilesTableComponentLoadable />
                     } /> */}
-                  
-                    <Route path="/" element={<CardComponentLoadable />} />
+
+                    <Route path="/" element={<LoginComponent />} />
                     <Route path="*" element={<NotFoundComponent />} />
 
                 </Route>

@@ -10,7 +10,7 @@ const AjexPortalService = axios.create({
     }
 });
 
-AjexPortalService.interceptors.request.use((config: AxiosRequestConfig) => {
+AjexPortalService.interceptors.request.use((config) => {
     const token = SessionStorage.get('token');
     if (token?.length) {
         if (token) {

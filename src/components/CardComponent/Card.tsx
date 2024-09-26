@@ -1,59 +1,93 @@
 import React, { useState } from 'react';
-import { Button, Form, Row, Col } from 'antd';
-import CardTemplateSelector from './CardTemplateSelector';
-import PersonalDetailsForm from './PersonalDetailsForm';
-import BusinessCardPreview from './BusinessCardPreview';
-import QRCodeGenerator from './QRCodeGenerator';
-import TemplateOne from './SVGComponent';
-import VCardDownload from './vcf';
-import VCard from './vcf';
-import DownloadContact from './Download';
+import { Button, Form, Row } from 'antd';
+import ContactDetailsForm from './ContactDetailsForm';
+import VCard from './PreviewCard';
+
+interface ContactProps {
+  contact: {
+    firstName: string;
+    lastName: string;
+    position: string;
+    mobile: string;
+    email: string;
+    phone: string;
+    linkedIn: string;
+    address: string;
+    profileImage?: any;
+  };
+}
 
 const App: React.FC = () => {
   const [form] = Form.useForm();
-  // const [template, setTemplate] = useState('rectangle');
-  const [details, setDetails] = useState({
-    name: '',
+
+  const [details, setDetails] = useState<ContactProps['contact']>({
+    firstName: '',
+    lastName: '',
     position: '',
     mobile: '',
-    phone: '',
     email: '',
+    phone: '',
+    linkedIn: '',
     address: '',
+    profileImage: ''
   });
 
+  // Update form details on every change
+  const onValuesChange = (changedValues: any, allValues: any) => {
+    console.log(changedValues);
+
+    // Check if one of the keys is phone, address, or linkedIn
+    if (changedValues.phone || changedValues.address || changedValues.linkedIn) {
+      setFlipped(true);
+    } else {
+      setFlipped(false);
+    }
+
+    setDetails(allValues); // Updates the details object in real-time
+  };
+
   const onFinish = (values: any) => {
-    setDetails(values);
+    setDetails(values); // This will update when the form is submitted
+  };
+  const [flipped, setFlipped] = useState(false);
+
+  const handleFlip = () => {
+    setFlipped(!flipped);
   };
 
   return (
-    <div className="full-screen" >
-      <h1>AJEX Business Card Generator</h1>
-
-      {/* <Row gutter={16}>
-       <Col xs={24} sm={24} md={12} lg={8}>
-         <Form form={form} onFinish={onFinish} layout="vertical">
-            <PersonalDetailsForm form={form} />
+    <div>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' }}>
+        <div style={{ flex: '0 1 45%', margin: '10px' }}>
+          <Form
+            form={form}
+            onFinish={onFinish}
+            onValuesChange={onValuesChange} // Track form field changes
+            layout="vertical"
+          >
+            <ContactDetailsForm form={form} />
             <Button type="primary" onClick={() => form.submit()} style={{ marginTop: '16px' }}>
               Generate Card
             </Button>
           </Form>
-        </Col>
+        </div>
 
-       <Col xs={24} sm={24} md={12} lg={16}>
-         <div style={{ textAlign: 'center' }}>
-            <TemplateOne details={details} />
-          </div>
-        </Col>
-     
-      </Row> */}
-
-      <div >
-        {/* <QRCodeGenerator value={details} /> */}
-        <VCard />
+        <div
+          style={{
+            flex: '0 1 45%',
+            margin: '0 0 30px0',
+            display: 'flex',
+            justifyContent: 'center',
+          }}
+        >
+          <VCard flipped={flipped} onFlip={handleFlip} contact={details} />
+        </div>
       </div>
-      {/* <DownloadContact/> */}
+
     </div>
+
   );
 };
 
 export default App;
+

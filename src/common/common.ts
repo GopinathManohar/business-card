@@ -22,30 +22,41 @@ export const numberOneRegex = /^1$/;
 export const sampleProductNumberRegex = /^([0-9]|1[0-5])$/;
 
 export const validationMessage = {
-    INVALID_EMAIL_ADDRESS: 'You have entered an invalid e-mail address',
-    INVALID_PHONE_NUMBER: 'You have entered an invalid phone number',
-    INVALID_TEXT: 'You have entered an invalid text. Please add number only',
-    INVALID_SWIFT: 'You have entered invalid SWIFT CODE',
-    INVALID_IBAN: 'You have entered invalid IBAN',
-    INVALID_BANK_ACCOUNT: 'You have entered invalid Bank Account',
-    PHONE_NUMBER_LIMIT: 'Phone number must be 10 digit only',
-    REQUIRED: 'This field is required.',
-    ALPHABETS_TEXT: 'You have entered an invalid text. Please add alphabets only',
-    REFERENCE_NUMBER_LENGTH: 'The reference number must be 70 characters long',
-    ONE_BOX_TEXT: 'The number of box should be exactly 1',
-    POSS_SAMPLE_PRODUCT_INVALID_TEXT: 'You have entered an invalid text. The maximum number of boxes should be 15',
+  INVALID_EMAIL_ADDRESS: 'You have entered an invalid e-mail address',
+  INVALID_PHONE_NUMBER: 'You have entered an invalid phone number',
+  INVALID_TEXT: 'You have entered an invalid text. Please add number only',
+  INVALID_SWIFT: 'You have entered invalid SWIFT CODE',
+  INVALID_IBAN: 'You have entered invalid IBAN',
+  INVALID_BANK_ACCOUNT: 'You have entered invalid Bank Account',
+  PHONE_NUMBER_LIMIT: 'Phone number must be 10 digit only',
+  REQUIRED: 'This field is required.',
+  ALPHABETS_TEXT: 'You have entered an invalid text. Please add alphabets only',
+  REFERENCE_NUMBER_LENGTH: 'The reference number must be 70 characters long',
+  ONE_BOX_TEXT: 'The number of box should be exactly 1',
+  POSS_SAMPLE_PRODUCT_INVALID_TEXT: 'You have entered an invalid text. The maximum number of boxes should be 15',
 }
 
 export const formatPhoneNumber = (phoneNumber: string) => {
-    const regex = /^(\+\d{1,2}\s?)?1?\-?\.?\s?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
-    if (!regex.test(phoneNumber)) {
-      return phoneNumber; // Return the original phone number if it doesn't match the regex
-    }
-  
-    const cleaned = ('' + phoneNumber).replace(/\D/g, '');
-    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
+  // Remove all non-digit characters
+  const cleaned = phoneNumber?.replace(/\D/g, '');
+
+  // Check if the cleaned phone number is exactly 10 digits
+  if (cleaned?.length === 10) {
+    const match = cleaned?.match(/^(\d{3})(\d{3})(\d{4})$/);
     if (match) {
-      return `+966 (${match[1].slice(1)}) ${match[2]} ${match[3]}`;
+      // Prefix with the Saudi country code and format the number
+      return `+966 ${match[1]} ${match[2]} ${match[3]}`;
     }
-    return phoneNumber;
   }
+
+  // Return the original phone number if it doesn't match the expected 10 digits
+  return phoneNumber;
+};
+
+export const capitalizeFirstLetter = (input: string): string => {
+  if (!input) return input; // Handle empty strings
+  return input.charAt(0).toUpperCase() + input.slice(1).toLowerCase();
+};
+
+
+

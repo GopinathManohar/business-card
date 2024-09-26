@@ -1,9 +1,7 @@
 import { Col, Image, Layout, Menu, Row, Space, Typography } from 'antd';
 import { useState } from 'react';
-import { AiFillFile, AiOutlineDeploymentUnit, AiOutlineLogout, AiOutlineSolution } from 'react-icons/ai';
-import { FaShippingFast } from 'react-icons/fa';
-import { HiOutlineDocumentReport } from 'react-icons/hi';
-import { TbBrandBooking } from 'react-icons/tb';
+import { AiOutlineLogout } from 'react-icons/ai';
+import { TbDashboard, TbCards } from 'react-icons/tb';
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import imageUrl from '../../assets/images/ajex_logo.png';
@@ -11,8 +9,6 @@ import { useContextHook } from '../../hooks/useContextHook';
 import { ILoginState } from '../../model/LoginModel';
 import { SessionStorage } from '../../services/storage';
 import { useLoginStore } from '../../stores/LoginStore';
-import { USER_CUSTOMER_TYPE, USER_ROLES } from '../../utils/common';
-import { language } from "../../utils/language";
 import FooterComponent from './FooterComponent';
 
 const { Header, Content, Sider } = Layout;
@@ -53,88 +49,18 @@ const AppLayout = () => {
 
     const { customerDetail } = useContextHook();
 
-    const mapFunction = ({ path, label, key, icon, hidden = true }: 
-        { path: string, label: string, key: string, icon: JSX.Element, hidden: boolean}) => ({
-        pathname: path,
-        name: label,
-        key: key,
-        label: path ? <NavLink to={path} key={key} replace>{label}</NavLink> : label,
-        icon: icon,
-        hidden: hidden
-    })
+
     const items = [
-        { label: `${language.en.booking} ${language.ar.booking}`, key: '1', path: '/booking', icon: <TbBrandBooking size={17} /> }, // remember to pass the key prop
-        {
-            label: `${language.en.report}  ${language.ar.report}`,
-            key: '2',
-            path: '',
-            icon: <HiOutlineDocumentReport size={17} />,
-            hidden: false,
-            // hidden: ([USER_CUSTOMER_TYPE.LS_POSS].includes(customerDetail?.customerTypesId!) ?
-            //     !([USER_ROLES.ADMIN, USER_ROLES.SUPER_USER
-            //     ].includes(customerDetail?.customerRoleId!)) : true),
-            children: [
-                {
-                    label: `${language.en.report}  ${language.ar.report}`,
-                    key: '3',
-                    path: '/report',
-                    icon: <HiOutlineDocumentReport size={17} />,
-                    hidden: false
-                    // hidden: ([USER_CUSTOMER_TYPE.LS_POSS].includes(customerDetail?.customerTypesId!) ?
-                    //     !([USER_ROLES.ADMIN, USER_ROLES.SUPER_USER
-                    //     ].includes(customerDetail?.customerRoleId!)) : true),
-                },
-                {
-                    label: `${language.en.customerReport}  ${language.ar.customerReport}`,
-                    key: '4',
-                    path: '/customer-report',
-                    icon: <AiOutlineSolution size={17}
-                    />,
-                    hidden: ([USER_CUSTOMER_TYPE.LS_POSS].includes(customerDetail?.customerTypesId!) ?
-                        !([USER_ROLES.ADMIN, USER_ROLES.SUPER_USER].includes(customerDetail?.customerRoleId!)) : true),
-                },
-            ].map(({path, label, key, icon, hidden }) => ({
-                pathname: path,
-                name: label,
-                key: key,
-                label: path ? <NavLink to={path} key={key} replace>{label}</NavLink> : label,
-                icon: icon,
-                hidden: hidden
-            }))
-        },
-        { label: `${language.en.podFiles} ${language.ar.podFiles}`, key: '5', path: '/pod-files', icon: <AiFillFile size={17} /> },
-        {
-            label: 'Masters',
-            key: 9,
-            path: '',
-            hidden: !([USER_ROLES.ADMIN].includes(customerDetail?.customerRoleId!)),
-            icon: <AiOutlineDeploymentUnit size={18} />,
-            children: [
-                {
-                    label: 'Shippers', key: 39, path: '/shippers', icon: <FaShippingFast size={17} />,
-                    hidden: !([USER_ROLES.ADMIN].includes(customerDetail?.customerRoleId!))
-                }, {
-                    label: 'Consignee', key: 37, path: '/consignee', icon: <FaShippingFast size={17} />,
-                    hidden: !([USER_ROLES.ADMIN].includes(customerDetail?.customerRoleId!))
-                }
-            ].map(({path, label, key, icon, hidden }) => ({
-                pathname: path,
-                name: label,
-                key: key,
-                label: path ? <NavLink to={path} key={key} replace>{label}</NavLink> : label,
-                icon: icon,
-                hidden: hidden
-            }))
-        },
+        { label: `Dashboard`, key: '1', path: '/dashboard', icon: <TbDashboard size={17} /> }, // remember to pass the key prop
+        { label: `Create Cards`, key: '2', path: '/create-card', icon: <TbCards size={17} /> }, // remember to pass the key prop
+
     ].map((item) => {
         return {
             pathname: item?.path,
             name: item?.label,
             key: item?.key,
             label: item?.path ? <NavLink to={item?.path} reloadDocument={false} replace>{item?.label}</NavLink> : item?.label,
-            icon: item?.icon,
-            children: item?.children,
-            hidden: item?.hidden
+            icon: item?.icon
         };
     });
 
@@ -170,13 +96,13 @@ const AppLayout = () => {
                     paddingRight: '3rem',
                 }} >
                     <Space align='start'>
-                        <FontSize>{`${language.en.customerPortal} \n ${language.ar.customerPortal} : `}</FontSize>
+                        <FontSize>{`Ajex Business Cards`}</FontSize>
                     </Space>
                     <Row align={'middle'} style={{ gap: '1rem' }} gutter={{ xs: 24, sm: 20, md: 24, lg: 32 }}>
                         <Col xs={24} sm={20} md={20} lg={24} xxl={24}>
                             <Space align='center' size={10}>
                                 <Typography.Title level={5}  >
-                                    {`${language.en.welcome} \n ${language.ar.welcome} : `}
+                                    {`Welcome : `}
                                     {customerDetail?.subClientName}
                                 </Typography.Title>
                                 <SignOutComponent />

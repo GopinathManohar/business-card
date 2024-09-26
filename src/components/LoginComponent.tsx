@@ -72,11 +72,12 @@ export const LoginComponent = () => {
 
     const { promiseInProgress } = usePromiseTracker({ area: 'login-area' })
     const { setCustomerDetailHandle, customerDetail } = useContextHook();
-
-    const handleSubmit = useCallback((data: ILogin) => {
-        trackPromise(loginAction(data), 'login-area')
-    }, [loginAction])
     const navigateUrl = useCallback((url: any) => navigate(url), [navigate])
+    const handleSubmit = useCallback((data: ILogin) => {
+        navigateUrl('/dashboard')
+        // trackPromise(loginAction(data), 'login-area')
+    }, [navigateUrl])
+
 
     useEffect(() => {
         if (loggedInDetails && Object?.keys(loggedInDetails)?.length) {
