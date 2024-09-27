@@ -10,22 +10,25 @@ const beforeUpload = (file: any) => {
   const isImage = file.type.startsWith('image/');
   if (!isImage) {
     message.error('You can only upload image files!');
+    return false;
   }
-
-  const isMinSize = file.size / 1024 >= 100; // minimum size of 100KB
+  const isMinSize = file.size / 1024 >= 100;
   if (!isMinSize) {
     message.error('Image must be at least 100KB!');
+    return false;
   }
 
-  return isImage && isMinSize;
+  return true;
 };
+
 
 const normFile = (e: any) => {
   if (Array.isArray(e)) {
     return e;
   }
-  return e && e.fileList;
+  return e && e.fileList.filter((file: any) => file.type.startsWith('image/'));
 };
+
 const ContactDetailsForm: React.FC<PersonalDetailsFormProps> = ({ form }) => {
   return (
     <>
@@ -120,6 +123,7 @@ const ContactDetailsForm: React.FC<PersonalDetailsFormProps> = ({ form }) => {
               listType="picture"
               beforeUpload={beforeUpload}
               maxCount={1}
+              showUploadList={false} // Disable preview
             >
               <Button icon={<AiOutlineUpload />}>Click to Upload</Button>
             </Upload>

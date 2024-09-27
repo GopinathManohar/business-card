@@ -206,3 +206,12 @@ export const GetPodFilesListService = async (id: number) => {
         return err?.response
     }
 }
+
+export const GetAllEmployeeList = async () => {
+    try {
+        // return await AjexPortalService.get(`${commonURL}${podFiles}/${subClient}/${id}`)
+    } catch (error: unknown) {
+        const err = error as AxiosError;
+        return err?.response
+    }
+}

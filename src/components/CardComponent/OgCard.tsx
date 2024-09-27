@@ -35,8 +35,25 @@ interface ContactProps {
 
 
 
-const PreviewCard: React.FC<ContactProps> = ({ contact, flipped, onFlip }) => {
+export const OgCard = () => {
 
+    const [contact, setDetails] = useState<ContactProps['contact']>({
+        firstName: '',
+        lastName: '',
+        position: '',
+        mobile: '',
+        email: '',
+        phone: '',
+        linkedIn: '',
+        address: '',
+        profileImage: ''
+    });
+
+    const [flipped, setFlipped] = useState(false);
+
+    const onFlip = () => {
+        setFlipped(!flipped);
+    };
 
     const generateVCard = () => {
         const card = new vCard();
@@ -286,7 +303,7 @@ const PreviewCard: React.FC<ContactProps> = ({ contact, flipped, onFlip }) => {
 
 
 
-export default PreviewCard;
+
 
 
 

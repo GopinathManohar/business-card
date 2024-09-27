@@ -7,6 +7,7 @@ import { trackPromise, usePromiseTracker } from 'react-promise-tracker';
 import * as XLSX from 'xlsx';
 import { ColumnsType } from 'antd/lib/table';
 import { filterFunction } from '../../common/SearchFilterComponent';
+import ContactUpload, { Contact } from './ContactBulkUpload';
 
 
 
@@ -46,17 +47,14 @@ const EmployeeTableComponent = () => {
   const searchInput = useRef<InputRef>(null);
   const [isConfirmationModal, setIsConfirmationModal] = useState<boolean>(false);
   const getColumnSearchProps = (dataIndex: any): ColumnType<IShipper> => filterFunction(dataIndex, searchInput);
-
-
-
-
+  const [data, setData] = useState<Contact[]>([]);
 
   const columns: ColumnsType<IShipper> = [
     {
       title: 'S No',
       width: 50,
-      render: () => {
-        return (1)
+      render: (_, __, index) => {
+        return index + 1;
       }
     },
     {
@@ -65,31 +63,36 @@ const EmployeeTableComponent = () => {
       key: 'firstName',
       width: 100,
       ...getColumnSearchProps('firstName')
-    }, {
+    },
+    {
       title: 'Last Name',
       dataIndex: 'lastName',
       key: 'lastName',
       width: 100,
       ...getColumnSearchProps('lastName')
-    }, {
+    },
+    {
       title: 'Position/Role',
       dataIndex: 'position',
       key: 'position',
       width: 100,
       ...getColumnSearchProps('position')
-    }, {
+    },
+    {
       title: 'Mobile',
       dataIndex: 'mobile',
       key: 'mobile',
       width: 100,
       ...getColumnSearchProps('mobile')
-    }, {
+    },
+    {
       title: 'Email',
       dataIndex: 'email',
       key: 'email',
       width: 100,
       ...getColumnSearchProps('email')
-    }, {
+    },
+    {
       title: 'Phone',
       dataIndex: 'phone',
       key: 'phone',
@@ -106,10 +109,11 @@ const EmployeeTableComponent = () => {
     {
       title: 'Link',
       dataIndex: 'status',
-      key: 'status',
+      key: 'link', // Change key to 'link' for proper identification
       width: 100,
-      ...getColumnSearchProps('status')
+      ...getColumnSearchProps('link')
     },
+    // Uncomment if action is needed
     // {
     //   title: 'Action',
     //   key: 'action',
@@ -124,6 +128,7 @@ const EmployeeTableComponent = () => {
     //   }
     // }
   ];
+
 
   const onPaginationChange: PaginationProps['onChange'] = (page: number) => {
     setPageNumber(page - 1)
@@ -180,7 +185,8 @@ const EmployeeTableComponent = () => {
       >
         <>
           <Button onClick={handleDownload} >Sample Excel</Button>
-          <Button  >Upload by excel</Button>
+          <ContactUpload setData={setData} />
+          {/* <Button  >Upload by excel</Button> */}
           <Button>Generate Card</Button>
         </>
       </TableComponentLoadable>
