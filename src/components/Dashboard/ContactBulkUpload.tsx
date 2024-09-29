@@ -4,12 +4,15 @@ import * as XLSX from 'xlsx';
 import { UploadOutlined } from '@ant-design/icons';
 
 export interface Contact {
+    id?: number;
     firstName: string;
     lastName: string;
     position: string;
     mobile: string;
     email: string;
     phone: string;
+    status: string;
+    link: string;
 }
 
 // Define the props interface

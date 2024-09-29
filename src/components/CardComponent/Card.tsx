@@ -62,7 +62,7 @@ const App: React.FC = () => {
           <Form
             form={form}
             onFinish={onFinish}
-            onValuesChange={onValuesChange} // Track form field changes
+            onValuesChange={onValuesChange}
             layout="vertical"
           >
             <ContactDetailsForm form={form} />
@@ -72,12 +72,12 @@ const App: React.FC = () => {
           </Form>
         </div>
 
-        <div
+        <div className='height100per'
           style={{
             flex: '0 1 45%',
             margin: '0 0 30px0',
             display: 'flex',
-            justifyContent: 'center',
+            justifyContent: 'center', alignItems: 'center'
           }}
         >
           <VCard flipped={flipped} onFlip={handleFlip} contact={details} />

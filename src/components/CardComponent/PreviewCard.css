@@ -1,5 +1,14 @@
 body { font-family: sans-serif; }
 
+#root{
+  height: 100%;
+}
+#root>div:first-child{
+  height: 100%;
+}
+.height100per{
+  height: 100%;
+}
 .scene {
   display: inline-block;
   width: 200px;
@@ -24,35 +33,43 @@ body { font-family: sans-serif; }
   /* transform-origin: center right; */
 }
 
-.card__face {
+/* .card__face {
   position: absolute;
-backface-visibility: hidden;
-}
+    top: 0;
+    left: 0;
+    zoom: 1;
+    transition: 1s;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    overflow: hidden;
+} */
 
 /* .card__face--front {
   background: crimson;
 } */
 
-.card__face--back {
+/* .card__face--back {
  transform: rotateY(180deg);
-}
+} */
 
 
 
 
 .custom-card {
-  position: relative; /* Set relative positioning for the Card */
-  width: 320px;
-  height: 450px;
-  background-color: #1A1A1A;
-  padding: 7px;
+  position: relative !important; /* Set relative positioning for the Card */
+  /* width: 320px; */
+ height: 450px !important;
+  /* background-color: #1A1A1A !important; */
+  padding: 10px !important;
+  background: url('../../assets/images/bg1.jpg') !important;;
+  width: 100%; 
 }
 
 .contact-custom-card {
-  width: 305px;
-  height: 330px;
+   /* width: 305px; */
+  height: 320px;
   background-color: #EFEFEF;
-  padding: 3px;
+  padding: 8px;
   border-radius: 0;
 }
 
@@ -104,6 +121,7 @@ backface-visibility: hidden;
 
 .profile-img-logo {
   width: 80px;
+  border-radius: 50%;
 }
 
 .ellipsis-btn {
@@ -145,19 +163,19 @@ backface-visibility: hidden;
 
 
 .custom-ellipsis-btn {
-  position: absolute;
-  bottom: 10px; /* Distance from the bottom of the card */
-  right: 10px;  /* Distance from the right of the card */
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: 2px solid white;
-  background-color: #1A1A1A;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
+  position: absolute !important;
+  bottom: 10px !important; /* Distance from the bottom of the card */
+  right: 10px !important;  /* Distance from the right of the card */
+  width: 30px !important;
+  height: 30px !important ;
+  border-radius: 50% !important;
+  border: 2px solid white !important;
+  background-color: #1A1A1A !important;
+  color: white !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
 }
 
 /* Optional: hover effects for the button */
@@ -289,4 +307,94 @@ backface-visibility: hidden;
 .qr-tag{
 text-align: center;
 
+}
+
+
+
+
+/* new Style */
+
+.contentFrame{
+  display: flex;
+}
+.mb_8{
+  margin-bottom: 8px;
+}
+.ml_10{
+  margin-left: 10px;
+}
+.mb_zero{
+  margin-bottom: 0px;
+}
+.mb_16{
+  margin-bottom: 16px;
+}
+.cardWrapper .ant-divider-horizontal{
+  margin: 10px 0px;
+}
+.wordBreak_breakAll{
+word-break: break-all;
+}
+.cardFrontSide,
+.cardBackSide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  zoom: 1;
+  transition: 1s;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  overflow: hidden;
+    filter: drop-shadow(0px 11px 15px rgba(0, 0, 0, 0.2));
+}
+.cardWrapper , .cardFrontSide , .cardBackSide{
+  perspective: 1000px;
+    width: 320px;
+      height: 450px;
+}
+.cardFrontSide {
+  z-index: 2;
+  transform: rotateY(0deg);
+  /* background: #fff; */
+}
+.cardWrapper.is-flipped .cardFrontSide {
+  transform: rotateY(180deg);
+}
+.cardWrapper.is-flipped .cardBackSide {
+  transform: rotateY(360deg);
+  z-index: 3;
+}
+.cardWrapper {
+  perspective: 1000px;
+}
+.cardBackSide {
+  /* background: rgb(26, 26, 26); */
+  transform: rotateY(180deg);
+  
+}
+.cardWrapper .ant-card-hoverable:hover{
+  box-shadow: unset !important;
+  border-color:#1A1A1A ;
+}
+.cardWrapper .ant-card-bordered{
+  border: 1px solid #1A1A1A;
+}
+
+.unsetAntBefore_after .ant-card-body::after , .unsetAntBefore_after .ant-card-body::before{
+  content: unset !important;
+}
+.heightSpcebetween .ant-card-body{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+@media (max-width: 768px) {
+.contentFrame {
+    display: block;
+  }
+    .contentFrame>div:first-child{
+      margin-bottom: 34px;
+    }
 }

@@ -8,7 +8,7 @@ import * as XLSX from 'xlsx';
 import { ColumnsType } from 'antd/lib/table';
 import { filterFunction } from '../../common/SearchFilterComponent';
 import ContactUpload, { Contact } from './ContactBulkUpload';
-
+import { LiaIdCard } from "react-icons/lia";
 
 
 
@@ -35,6 +35,63 @@ interface IShipper {
   statusId: number
 }
 
+const sampleData: Contact[] = [
+  {
+    id: 1,
+    firstName: 'John',
+    lastName: 'Doe',
+    position: 'Manager',
+    mobile: '1234567890',
+    email: 'john.doe@example.com',
+    phone: '0987654321',
+    status: 'Active',
+    link: 'http://example.com/johndoe',
+  },
+  {
+    id: 2,
+    firstName: 'Jane',
+    lastName: 'Smith',
+    position: 'Developer',
+    mobile: '2345678901',
+    email: 'jane.smith@example.com',
+    phone: '9876543210',
+    status: 'Inactive',
+    link: 'http://example.com/janesmith',
+  },
+  {
+    id: 3,
+    firstName: 'Alice',
+    lastName: 'Johnson',
+    position: 'Designer',
+    mobile: '3456789012',
+    email: 'alice.johnson@example.com',
+    phone: '8765432109',
+    status: 'Active',
+    link: 'http://example.com/alicejohnson',
+  },
+  {
+    id: 4,
+    firstName: 'Bob',
+    lastName: 'Brown',
+    position: 'Tester',
+    mobile: '4567890123',
+    email: 'bob.brown@example.com',
+    phone: '7654321098',
+    status: 'Active',
+    link: 'http://example.com/bobbrown',
+  },
+  {
+    id: 5,
+    firstName: 'Charlie',
+    lastName: 'Davis',
+    position: 'Analyst',
+    mobile: '5678901234',
+    email: 'charlie.davis@example.com',
+    phone: '6543210987',
+    status: 'Inactive',
+    link: 'http://example.com/charliedavis',
+  },
+];
 
 const EmployeeTableComponent = () => {
 
@@ -108,10 +165,16 @@ const EmployeeTableComponent = () => {
     },
     {
       title: 'Link',
-      dataIndex: 'status',
-      key: 'link', // Change key to 'link' for proper identification
+      dataIndex: 'link',
+      key: 'link',
       width: 100,
-      ...getColumnSearchProps('link')
+      render: (link: string) => (
+        <Button
+          type="link" // Use 'link' type for a cleaner look
+          icon={<LiaIdCard />} // Card icon inside the button
+          onClick={() => window.open(link, '_blank')} // Redirect to the link
+        />
+      ),
     },
     // Uncomment if action is needed
     // {
@@ -174,7 +237,7 @@ const EmployeeTableComponent = () => {
       <TableComponentLoadable
         columns={columns}
         scroll={{ y: 510, x: 10 }}
-        data={[]}
+        data={sampleData}
         isLoading={promiseInProgress || deleteConsigneeProgress}
         rowKey='id'
         onPaginationChange={onPaginationChange}

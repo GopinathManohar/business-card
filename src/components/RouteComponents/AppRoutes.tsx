@@ -7,6 +7,7 @@ import { LoginComponent } from "../LoginComponent"
 import { CardComponentLoadable } from "../CardComponent"
 import ProtectedRoute from './ProtectRoutes'
 import EmployeeTableComponent from '../Dashboard/EmployeeTable'
+import ContactCard from '../CardComponent/ContactCard'
 
 
 const AppRoutes = () => {
@@ -34,6 +35,7 @@ const AppRoutes = () => {
                     <Route path="*" element={<NotFoundComponent />} />
 
                 </Route>
+                <Route path="/contact-card" element={<ContactCard />} />
             </Routes >
         </Suspense>
 

@@ -28,16 +28,30 @@ interface ContactProps {
         address: string;
         profileImage?: any;
     };
-    flipped: boolean;
-    onFlip: () => void; // Function to handle flip
 }
 
 
 
 
-const PreviewCard: React.FC<ContactProps> = ({ contact, flipped, onFlip }) => {
+const ContactCard: React.FC = () => {
 
+    const [flipped, setFlipped] = useState(false);
 
+    const handleFlip = () => {
+        setFlipped(!flipped);
+    };
+
+    const [contact, setContact] = useState<ContactProps['contact']>({
+        firstName: 'Gopinath',
+        lastName: 'Manohar',
+        position: 'Software Engineer',
+        mobile: '1234567890',
+        email: 'Gopimano4242@gmail.com',
+        phone: '1234567890',
+        linkedIn: '',
+        address: 'AJEX Logistics Services P.O. Box 27153 Riyadh 11417 🇸🇦 Kingdom of Saudi Arabia',
+        profileImage: ''
+    });
     const generateVCard = () => {
         const card = new vCard();
         card.set('fn', contact?.firstName);
@@ -88,27 +102,26 @@ const PreviewCard: React.FC<ContactProps> = ({ contact, flipped, onFlip }) => {
         return url;
     };
 
-    const handleChange = (pic: any) => {
-        if (pic?.length) {
-            const file = pic?.[0].originFileObj || pic.file;
-            const previewUrl = URL.createObjectURL(file);
-            return previewUrl // Pass the preview URL to the other component
-        }
-        return null
-    };
-
     return (
-        <>
-            {/* <div  className="scene scene--card"> */}
+        <div className='height100per'
+            style={{
+                flex: '0 1 45%',
+                margin: '0 0 30px0',
+                display: 'flex',
+                justifyContent: 'center', alignItems: 'center'
+            }}
+        >
             <div className={`cardWrapper ${flipped ? 'is-flipped' : ''}`}>
                 <div className="cardFrontSide">
                     <Card
                         hoverable
-                        className="custom-card"
+
                         bodyStyle={{
                             padding: 0,
                             margin: 0,
+
                         }}
+                        className="custom-card"
                     >
                         {/* header */}
                         <Row className="card-row">
@@ -145,7 +158,7 @@ const PreviewCard: React.FC<ContactProps> = ({ contact, flipped, onFlip }) => {
                                 <div className="profile-img">
                                     <img
                                         className="profile-img-logo"
-                                        src={handleChange(contact?.profileImage) || defaultDp}
+                                        src={contact?.profileImage || defaultDp}
                                         alt="Profile"
                                     />
                                 </div>
@@ -192,7 +205,7 @@ const PreviewCard: React.FC<ContactProps> = ({ contact, flipped, onFlip }) => {
 
                         {/* Button placed in the bottom-right corner */}
                         <Button
-                            onClick={onFlip}
+                            onClick={handleFlip}
                             className="custom-ellipsis-btn"
                             icon={<HiArrowUturnRight />}
                             size='small'
@@ -229,37 +242,39 @@ const PreviewCard: React.FC<ContactProps> = ({ contact, flipped, onFlip }) => {
                                 margin: 0,
                             }}>
                             <div>
-                                <Row align="middle" justify={'center'} className='mb_8'>
+                                <Row align="middle" justify={'center'} className='mb_8 ml_10'>
                                     <BiDetail size={20} style={{ margin: '0 10' }} /> Details
                                 </Row>
-                                <Row align="middle" className='mb_8'>
+                                <Row align="middle" className='mb_8 ml_10'>
                                     <ImMobile size={20} style={{ margin: '0 10' }} />  <Link to={''}>{formatPhoneNumber(contact?.mobile)}</Link>
                                 </Row>
-                                <Row align="middle" className='mb_8'>
+                                <Row align="middle" className='mb_8 ml_10'>
 
                                     <AiOutlinePhone size={20} style={{ margin: '0 10' }} />  <Link to={''}>{formatPhoneNumber(contact?.phone)}</Link>
                                 </Row>
-                                <Row align="middle" className='mb_8'>
+                                <Row align="middle" className='mb_8 ml_10'>
                                     <AiOutlineMail size={20} style={{ margin: '0 10' }} />  <Link to={''}>{contact?.email}</Link>
                                 </Row>
-                                <Row align="middle" className='mb_8'>
+                                <Row align="middle" className='mb_8 ml_10'>
                                     <AiFillLinkedin size={20} style={{ margin: '0 10' }} />  <Link className='wordBreak_breakAll' to={contact?.linkedIn || ""}>{contact?.firstName}{contact?.lastName}</Link>
                                 </Row>
-                                <Row align="middle" className='mb_8'>
+                                <Row align="middle" className='mb_8 ml_10'>
                                     <AiOutlineGlobal size={20} style={{ margin: '0 10' }} />  <Link to={''}>www.aj-ex.com</Link>
                                 </Row>
 
-                                <Row justify="center" align="middle" className='mb_8'>
-                                    <p className='label mb_zero wordBreak_breakAll' style={{ lineHeight: '1.3', margin: '0 10' }}>
+                                <Row justify="center" align="middle" className='mb_8 '>
+                                    <p className='ml_10 label mb_zero wordBreak_breakAll ' style={{ lineHeight: '1.3' }}>
                                         {contact?.address}
                                     </p>
                                 </Row>
 
+                                {/* <p className='mb_zero'>AJEX Logistics Services P.O. Box 27153 Riyadh 11417 🇸🇦 Kingdom of Saudi Arabia</p> */}
+
+
                             </div>
-                            <div>
+                            <div className='mb_8'>
                                 <Row justify={'center'} align={'middle'}>
                                     <Divider />
-
                                     <Button
                                         className="detail-custom-ellipsis-btn"
                                         onClick={generateVCard}
@@ -270,7 +285,7 @@ const PreviewCard: React.FC<ContactProps> = ({ contact, flipped, onFlip }) => {
                         </Card>
 
                         <Button
-                            onClick={onFlip}
+                            onClick={handleFlip}
                             className="custom-ellipsis-btn"
                             icon={<HiArrowUturnLeft />}
                             size='small'
@@ -278,16 +293,16 @@ const PreviewCard: React.FC<ContactProps> = ({ contact, flipped, onFlip }) => {
                     </Card>
                 </div>
             </div>
-            {/* </div> */}
+        </div>
 
-        </>
+
 
     );
 };
 
 
 
-export default PreviewCard;
+export default ContactCard;
 
 
 
